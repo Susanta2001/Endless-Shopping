@@ -1,24 +1,30 @@
-import logo from './logo.svg';
 import './App.css';
+import React, {useState} from 'react'
+import Navbar from './component/Navbar';
+import Products from './component/Products';
 
 function App() {
+
+  const [cardData, setCardData] = useState ([]);
+
+  const handleAddToCartClick = (image,name,price)=>{
+    let newItem = {
+        image,
+        name,
+        price
+    };
+    setCardData (prevData => [...prevData,newItem]);
+}
+
+const handleProductDeleteClick = (index) => {
+  setCardData(prevData => prevData.filter((_, i) => i !== index));
+};
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navbar cardData={cardData} handleProductDeleteClick={handleProductDeleteClick}/>
+      <Products handleAddToCartClick={handleAddToCartClick} />
+    </>
   );
 }
 
